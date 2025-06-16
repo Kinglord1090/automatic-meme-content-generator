@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Video Generator - Login</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <span class="logo-icon">🎭</span>
+                    <h1>Meme Video Generator</h1>
+                </div>
+                <p>Transform memes into engaging videos with AI</p>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                <p>{{ error }}</p>
+            </div>
+            {% endif %}
+
+            <!-- Form Toggle Buttons -->
+            <div class="form-toggle">
+                <button type="button" class="toggle-btn active" id="loginToggle">Sign In</button>
+                <button type="button" class="toggle-btn" id="registerToggle">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form method="POST" action="/login" class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-username">Email</label>
+                    <input type="email" id="login-username" name="username" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <span>Sign In</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Registration Form -->
+            <form method="POST" action="/register" class="auth-form hidden" id="registerForm">
+                <div class="form-group">
+                    <label for="register-username">Email</label>
+                    <input type="email" id="register-username" name="username" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password (min 6 characters)" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="auth-btn">
+                    <span>Create Account</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginToggle = document.getElementById('loginToggle');
+            const registerToggle = document.getElementById('registerToggle');
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+
+            // Check if we should show register form (from server-side error)
+            const showRegister = {{ 'true' if show_register else 'false' }};
+            if (showRegister) {
+                showRegisterForm();
+            }
+
+            loginToggle.addEventListener('click', function() {
+                showLoginForm();
+            });
+
+            registerToggle.addEventListener('click', function() {
+                showRegisterForm();
+            });
+
+            function showLoginForm() {
+                loginToggle.classList.add('active');
+                registerToggle.classList.remove('active');
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+            }
+
+            function showRegisterForm() {
+                registerToggle.classList.add('active');
+                loginToggle.classList.remove('active');
+                registerForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+
+            // Password confirmation validation
+            const registerPassword = document.getElementById('register-password');
+            const confirmPassword = document.getElementById('confirm-password');
+
+            function validatePasswords() {
+                if (registerPassword.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity('Passwords do not match');
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+            }
+
+            registerPassword.addEventListener('input', validatePasswords);
+            confirmPassword.addEventListener('input', validatePasswords);
+        });
+    </script>
+</body>
+</html>
