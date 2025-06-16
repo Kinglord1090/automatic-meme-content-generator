@@ -1,6 +1,0 @@
-flask
-praw
-python-dotenv
-requests
-Flask-SQLAlchemy
-pyttsx3
