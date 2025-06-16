@@ -17,7 +17,7 @@ This project is a Flask-based web application that automates the creation of mem
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/automatic-meme-content-generator.git
+git clone https://github.com/Kinglord1090/automatic-meme-content-generator.git
 cd automatic-meme-content-generator
 ```
 
